@@ -17,12 +17,17 @@ public class PlayerService {
     public Player createPlayer(String name, String email)
     {
         if(playerRepository.existsByEmail(email))
-        { throw new IllegalArgumentException("Bu email zaten kullanılıyor"); }
+        { throw new IllegalArgumentException("This email already exists!"); }
 
         if(playerRepository.existsByUsername(name))
-        { throw new IllegalArgumentException("Bu username zaten kullanılıyor"); }
+        { throw new IllegalArgumentException("This username already exists!"); }
 
         Player player = new Player(name, email);
         return playerRepository.save(player);
+    }
+
+    public Player getPlayerById(Long id) {
+        return playerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find player with id: " + id));
     }
 }

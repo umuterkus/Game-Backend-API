@@ -3,9 +3,7 @@ package com.example.game_backend_api.controller;
 
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.service.PlayerService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PlayerController {
@@ -18,6 +16,13 @@ public class PlayerController {
     @PostMapping("/players")
     public Player createPlayer(@RequestBody Player request) {
         return playerService.createPlayer(request.getUsername(), request.getEmail());
+    }
+
+    @GetMapping("/players/{id}")
+    public Player getPlayer(@PathVariable Long id)
+    {
+        return playerService.getPlayerById(id);
+
     }
 
 }
