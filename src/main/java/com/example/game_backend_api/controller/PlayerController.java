@@ -4,6 +4,7 @@ package com.example.game_backend_api.controller;
 import com.example.game_backend_api.dto.LeaderboardEntry;
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.service.PlayerService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class PlayerController {
     }
 
     @PostMapping("/players")
-    public Player createPlayer(@RequestBody Player request) {
+    public Player createPlayer(@Valid @RequestBody Player request) {
         return playerService.createPlayer(request.getUsername(), request.getEmail());
     }
 

@@ -1,8 +1,8 @@
 package com.example.game_backend_api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +13,17 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Username cannot be empty")
     private String username;
+
+    @NotBlank(message = "Email cannot be empty")
     private String email;
     private int totalScore;
 
 
     @OneToMany(mappedBy = "player")
     private List<Score> scoreList = new ArrayList<>();
+
 
     public Player() {
     }
