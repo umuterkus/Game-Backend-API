@@ -6,6 +6,8 @@ import com.example.game_backend_api.repository.PlayerRepository;
 import com.example.game_backend_api.repository.ScoreRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ScoreService {
 
@@ -25,6 +27,19 @@ public class ScoreService {
         }
         Score scoreObject = new Score(score, gameMode, player);
         return scoreRepository.save(scoreObject);
+    }
+
+    public List<Score> getScoresByPlayerId(Long playerId)
+    {
+        if(playerRepository.existsById(playerId))
+        {
+            return scoreRepository.findByPlayerId(playerId);
+
+        } else
+        {
+            throw new IllegalArgumentException(String.format("Cannot find player with id: %s", playerId));
+        }
+
     }
 
 
