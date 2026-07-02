@@ -24,6 +24,7 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private List<Score> scoreList = new ArrayList<>();
 
+    private String password;
 
     public Player() {
     }
@@ -45,5 +46,13 @@ public class Player {
 
     public int getTotalScore() { return totalScore; }
     public void setTotalScore(int totalScore) { this.totalScore = totalScore; }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }

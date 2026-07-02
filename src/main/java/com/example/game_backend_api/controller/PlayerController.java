@@ -19,7 +19,7 @@ public class PlayerController {
 
     @PostMapping("/players")
     public Player createPlayer(@Valid @RequestBody Player request) {
-        return playerService.createPlayer(request.getUsername(), request.getEmail());
+        return playerService.createPlayer(request.getUsername(), request.getEmail(), request.getPassword());
     }
 
     @GetMapping("/players/{id}")

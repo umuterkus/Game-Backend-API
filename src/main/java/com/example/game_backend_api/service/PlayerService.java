@@ -3,6 +3,7 @@ package com.example.game_backend_api.service;
 import com.example.game_backend_api.dto.LeaderboardEntry;
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.repository.PlayerRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,13 +13,15 @@ import java.util.List;
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public PlayerService(PlayerRepository playerRepository) {
+    public PlayerService(PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
         this.playerRepository = playerRepository;
-
+        this.passwordEncoder = passwordEncoder;
     }
+    private String password;
 
-    public Player createPlayer(String name, String email)
+    public Player createPlayer(String name, String email, String password)
     {
         if(playerRepository.existsByEmail(email))
         { throw new IllegalArgumentException("This email already exists!"); }
@@ -27,6 +30,8 @@ public class PlayerService {
         { throw new IllegalArgumentException("This username already exists!"); }
 
         Player player = new Player(name, email);
+        String hashedPassword = passwordEncoder.encode(password);
+        player.setPassword(hashedPassword);
         return playerRepository.save(player);
     }
 
