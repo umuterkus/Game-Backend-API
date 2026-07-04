@@ -1,17 +1,32 @@
 package com.example.game_backend_api.dto;
 
-public class PlayerResponse
-{
-    private Long id ;
-    private String userName;
-    private String userEmail;
-    private String userPassword;
+public class PlayerResponse {
 
-    PlayerResponse(Long id, String userName, String userEmail, String userPassword)
-    {
+    private Long id;
+    private String username;
+    private String email;
+    private int totalScore;
+
+    public PlayerResponse(Long id, String username, String email, int totalScore) {
         this.id = id;
-        this.userName = userName;
-        this.userEmail = userEmail;
-        this.userPassword = userPassword;
+        this.username = username;
+        this.email = email;
+        this.totalScore = totalScore;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
     }
 }
