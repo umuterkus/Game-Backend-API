@@ -2,6 +2,7 @@ package com.example.game_backend_api.controller;
 
 
 import com.example.game_backend_api.dto.LeaderboardEntry;
+import com.example.game_backend_api.dto.LoginRequest;
 import com.example.game_backend_api.dto.PlayerResponse;
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.service.PlayerService;
@@ -58,6 +59,14 @@ public class PlayerController {
     @DeleteMapping("/players/{id}")
     public String deletePlayer(@PathVariable Long id){
         return playerService.deletePlayer(id);
+    }
+
+
+    @PostMapping("/login")
+    public String login(@Valid @RequestBody LoginRequest request)
+    {
+        return playerService.login(request.getUsername(), request.getPassword());
+
     }
 
 }

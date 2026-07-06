@@ -1,5 +1,6 @@
 package com.example.game_backend_api.service;
 
+import com.example.game_backend_api.config.JwtUtil;
 import com.example.game_backend_api.dto.LeaderboardEntry;
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.repository.PlayerRepository;
@@ -8,16 +9,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public PlayerService(PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
+    public PlayerService(PlayerRepository playerRepository, PasswordEncoder passwordEncoder,  JwtUtil jwtUtil) {
         this.playerRepository = playerRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
     private String password;
 
@@ -74,5 +78,17 @@ public class PlayerService {
         else {
             throw new IllegalArgumentException("Cannot find player with id: " + id);
         }
+    }
+
+    public String login(String username, String password)
+    {
+        Player player = playerRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Kullanıcı adı veya parola bulunamadı"));
+
+        if (!passwordEncoder.matches(password, player.getPassword())){
+            throw new IllegalArgumentException("Kullanıcı adı veya parola bulunamadı");
+        }
+
+        return jwtUtil.generateToken(player.getUsername());
     }
 }
