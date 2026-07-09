@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers("/players", "/players/**").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/leaderboard").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
 
                 );
