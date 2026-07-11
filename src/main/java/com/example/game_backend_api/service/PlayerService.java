@@ -23,7 +23,6 @@ public class PlayerService {
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
-    private String password;
 
     public Player createPlayer(String name, String email, String password)
     {
