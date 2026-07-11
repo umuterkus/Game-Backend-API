@@ -1,6 +1,6 @@
 Game Backend API
 
-A Spring Boot REST API for managing game players, scores, and a global leaderboard — built with authentication and secure password handling.
+A Spring Boot REST API for managing game players, scores, and a global leaderboard built with JWT authentication and secure password handling.
 
 
 ## Features
