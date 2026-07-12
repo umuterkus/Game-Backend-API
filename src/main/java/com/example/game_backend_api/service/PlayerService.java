@@ -2,6 +2,7 @@ package com.example.game_backend_api.service;
 
 import com.example.game_backend_api.config.JwtUtil;
 import com.example.game_backend_api.dto.LeaderboardEntry;
+import com.example.game_backend_api.dto.UpdatePlayerRequest;
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.repository.PlayerRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,25 +59,22 @@ public class PlayerService {
         return players;
     }
 
-    public Player updatePlayer(Long id, Player request)
+    public Player updatePlayer(String username, UpdatePlayerRequest request)
     {
-        Player existingPlayer = playerRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Oyuncu bulunamadı! ID: " + id));
+        Player existingPlayer = playerRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Oyuncu bulunamadı: " + username));
 
         existingPlayer.setUsername(request.getUsername());
         existingPlayer.setEmail(request.getEmail());
         return playerRepository.save(existingPlayer);
     }
 
-    public String deletePlayer(Long id)
-    {
-        if(playerRepository.existsById(id)){
-            playerRepository.deleteById(id);
-            return "Player with id: " + id + " deleted!";
-        }
-        else {
-            throw new IllegalArgumentException("Cannot find player with id: " + id);
-        }
+    public String deletePlayerByUsername(String username) {
+        Player existingPlayer = playerRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Oyuncu bulunamadı: " + username));
+
+        playerRepository.delete(existingPlayer);
+        return "Player " + username + " deleted!";
     }
 
     public String login(String username, String password)

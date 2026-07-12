@@ -1,14 +1,13 @@
 package com.example.game_backend_api.controller;
 
 
-import com.example.game_backend_api.dto.LeaderboardEntry;
-import com.example.game_backend_api.dto.LoginRequest;
-import com.example.game_backend_api.dto.PlayerResponse;
+import com.example.game_backend_api.dto.*;
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.service.PlayerService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class PlayerController {
     }
 
     @PostMapping("/players")
-    public PlayerResponse createPlayer(@Valid @RequestBody Player request) {
+    public PlayerResponse createPlayer(@Valid @RequestBody CreatePlayerRequest request) {
         Player player = playerService.createPlayer(request.getUsername(), request.getEmail(), request.getPassword());
         return new PlayerResponse(player.getId(), player.getUsername(), player.getEmail(), player.getTotalScore());
     }
@@ -50,15 +49,18 @@ public class PlayerController {
 
     }
 
-    @PutMapping("/players/{id}")
-    public PlayerResponse updatePlayer(@PathVariable Long id, @RequestBody Player request) {
-        Player player = playerService.updatePlayer(id, request);
+    @PutMapping("/players/me")
+    public PlayerResponse updatePlayer(Principal principal, @RequestBody UpdatePlayerRequest request) {
+        String username = principal.getName();
+        Player player = playerService.updatePlayer(username, request);
         return  new PlayerResponse(player.getId(), player.getUsername(), player.getEmail(), player.getTotalScore());
     }
 
-    @DeleteMapping("/players/{id}")
-    public String deletePlayer(@PathVariable Long id){
-        return playerService.deletePlayer(id);
+    @DeleteMapping("/players/me")
+    public String deletePlayer(Principal principal)
+    {
+        String username = principal.getName();
+        return playerService.deletePlayerByUsername(username);
     }
 
 
