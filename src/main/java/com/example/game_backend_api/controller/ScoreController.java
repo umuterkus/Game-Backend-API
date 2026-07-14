@@ -32,4 +32,9 @@ public class ScoreController {
         return scoreService.getScoresByPlayerId(id);
 
     }
+
+    @GetMapping("/leaderboard")
+    public List<Score> getLeaderboard() {
+        return scoreService.getLeaderboard();
+    }
 }

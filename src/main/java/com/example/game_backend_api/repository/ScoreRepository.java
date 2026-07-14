@@ -8,6 +8,6 @@ import java.util.List;
 public interface ScoreRepository extends JpaRepository<Score, Long>
 {
     List<Score> findByPlayerId(Long playerId);
-
+    List<Score> findByOrderByScoreDesc();
 
 }

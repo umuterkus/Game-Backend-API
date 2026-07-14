@@ -42,5 +42,9 @@ public class ScoreService {
 
     }
 
+    public List<Score> getLeaderboard() {
+        return scoreRepository.findByOrderByScoreDesc();
+    }
+
 
 }
