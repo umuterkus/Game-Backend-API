@@ -37,4 +37,5 @@ public class ScoreController {
     public List<Score> getLeaderboard() {
         return scoreService.getLeaderboard();
     }
+
 }
