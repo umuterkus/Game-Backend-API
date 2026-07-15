@@ -1,5 +1,6 @@
 package com.example.game_backend_api.service;
 
+import com.example.game_backend_api.dto.LeaderboardEntry;
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.model.Score;
 import com.example.game_backend_api.repository.PlayerRepository;
@@ -42,10 +43,8 @@ public class ScoreService {
 
     }
 
-    public List<Score> getLeaderboard() {
-        return scoreRepository.findByOrderByScoreDesc();
+    public List<LeaderboardEntry> getLeaderboard() {
+        return scoreRepository.findLeaderboard();
     }
-
-
-
 }
+

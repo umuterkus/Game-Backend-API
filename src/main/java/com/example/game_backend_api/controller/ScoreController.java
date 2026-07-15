@@ -1,5 +1,6 @@
 package com.example.game_backend_api.controller;
 
+import com.example.game_backend_api.dto.LeaderboardEntry;
 import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.model.Score;
 import com.example.game_backend_api.service.PlayerService;
@@ -34,7 +35,7 @@ public class ScoreController {
     }
 
     @GetMapping("/leaderboard")
-    public List<Score> getLeaderboard() {
+    public List<LeaderboardEntry> getLeaderboard() {
         return scoreService.getLeaderboard();
     }
 
