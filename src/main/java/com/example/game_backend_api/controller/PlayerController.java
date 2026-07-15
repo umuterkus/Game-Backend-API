@@ -32,11 +32,7 @@ public class PlayerController {
         return new PlayerResponse(player.getId(), player.getUsername(), player.getEmail(), player.getTotalScore());
 
     }
-
-    @GetMapping("/leaderboard")
-    public List<LeaderboardEntry> getLeaderboard() {
-        return playerService.getLeaderboard();
-    }
+    
 
     @GetMapping("/players")
     public List<PlayerResponse> getPlayers() {
