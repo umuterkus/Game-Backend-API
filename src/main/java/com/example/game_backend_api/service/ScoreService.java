@@ -7,6 +7,7 @@ import com.example.game_backend_api.repository.PlayerRepository;
 import com.example.game_backend_api.repository.ScoreRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,8 +44,17 @@ public class ScoreService {
 
     }
 
-    public List<LeaderboardEntry> getLeaderboard() {
-        return scoreRepository.findLeaderboard();
+    public List<LeaderboardEntry> getLeaderboard()
+    {
+        List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
+        leaderboardEntries = scoreRepository.findLeaderboard();
+
+        for (int i = 0; i < leaderboardEntries.size(); i++)
+        {
+            leaderboardEntries.get(i).setRank(i+1);
+
+        }
+        return leaderboardEntries;
     }
 }
 
