@@ -44,10 +44,11 @@ public class ScoreService {
 
     }
 
-    public List<LeaderboardEntry> getLeaderboard()
+    public List<LeaderboardEntry> getLeaderboard(String filter)
     {
+
         List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
-        leaderboardEntries = scoreRepository.findLeaderboard();
+        leaderboardEntries = scoreRepository.findLeaderboard(filter);
 
         for (int i = 0; i < leaderboardEntries.size(); i++)
         {

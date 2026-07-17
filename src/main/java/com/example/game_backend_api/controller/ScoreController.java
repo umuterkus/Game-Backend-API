@@ -35,8 +35,9 @@ public class ScoreController {
     }
 
     @GetMapping("/leaderboard")
-    public List<LeaderboardEntry> getLeaderboard() {
-        return scoreService.getLeaderboard();
+    public List<LeaderboardEntry> getLeaderboard(@RequestParam(value = "filter", defaultValue = "all") String filter)
+    {
+        return scoreService.getLeaderboard(filter);
     }
 
 }
