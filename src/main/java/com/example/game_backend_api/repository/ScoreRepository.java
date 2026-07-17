@@ -16,7 +16,7 @@ public interface ScoreRepository extends JpaRepository<Score, Long>
 
     @Query("SELECT new com.example.game_backend_api.dto.LeaderboardEntry(s.player.username, MAX(s.points)) " +
             "FROM Score s " +
-            "WHERE s.playedAt > :startDate" +
+            "WHERE s.playedAt > :startDate " +
             "GROUP BY s.player.id, s.player.username " +
             "ORDER BY MAX(s.points) DESC")
     List<LeaderboardEntry> findLeaderboard(@Param("startDate") LocalDateTime startDate);

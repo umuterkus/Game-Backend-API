@@ -5,8 +5,11 @@ import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.model.Score;
 import com.example.game_backend_api.repository.PlayerRepository;
 import com.example.game_backend_api.repository.ScoreRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,17 +47,27 @@ public class ScoreService {
 
     }
 
-    public List<LeaderboardEntry> getLeaderboard(String filter)
-    {
+    public List<LeaderboardEntry> getLeaderboard(String filter) {
 
-        List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
-        leaderboardEntries = scoreRepository.findLeaderboard(filter);
+        LocalDateTime startDate;
 
-        for (int i = 0; i < leaderboardEntries.size(); i++)
-        {
-            leaderboardEntries.get(i).setRank(i+1);
+        switch (filter) {
+            case "daily" -> startDate = LocalDateTime.now().minusDays(1);
+            case "weekly" -> startDate = LocalDateTime.now().minusWeeks(1);
+            case "monthly" -> startDate = LocalDateTime.now().minusMonths(1);
+            case "all" -> startDate = LocalDateTime.of(2000, 1, 1, 0, 0);
+            default -> throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Invalid filter value. Allowed values are: daily, weekly, monthly, all."
 
+            );
         }
+
+        List<LeaderboardEntry> leaderboardEntries = scoreRepository.findLeaderboard(startDate);
+
+        for (int i = 0; i < leaderboardEntries.size(); i++) {
+            leaderboardEntries.get(i).setRank(i + 1);
+        }
+
         return leaderboardEntries;
     }
 }
