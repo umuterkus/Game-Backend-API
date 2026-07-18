@@ -62,7 +62,7 @@ public class PlayerService {
     public Player updatePlayer(String username, UpdatePlayerRequest request)
     {
         Player existingPlayer = playerRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Oyuncu bulunamadı: " + username));
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find player: " + username));
 
         existingPlayer.setUsername(request.getUsername());
         existingPlayer.setEmail(request.getEmail());
@@ -71,7 +71,7 @@ public class PlayerService {
 
     public String deletePlayerByUsername(String username) {
         Player existingPlayer = playerRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Oyuncu bulunamadı: " + username));
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find player: " + username));
 
         playerRepository.delete(existingPlayer);
         return "Player " + username + " deleted!";
@@ -80,10 +80,10 @@ public class PlayerService {
     public String login(String username, String password)
     {
         Player player = playerRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Kullanıcı adı veya parola bulunamadı"));
+                .orElseThrow(() -> new IllegalArgumentException("Player name or password not exist"));
 
         if (!passwordEncoder.matches(password, player.getPassword())){
-            throw new IllegalArgumentException("Kullanıcı adı veya parola bulunamadı");
+            throw new IllegalArgumentException("Player name or password not exist");
         }
 
         return jwtUtil.generateToken(player.getUsername());
