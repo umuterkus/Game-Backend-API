@@ -5,6 +5,8 @@ import com.example.game_backend_api.model.Player;
 import com.example.game_backend_api.model.Score;
 import com.example.game_backend_api.repository.PlayerRepository;
 import com.example.game_backend_api.repository.ScoreRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,8 +26,11 @@ public class ScoreService {
         this.scoreRepository = scoreRepository;
     }
 
-    public Score addScore(int score, String gameMode, Player player)
+    public Score addScore(int score, String gameMode, String username)
     {
+        Player player = playerRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find player: " + username));
+
         if (score > player.getTotalScore()) {
             player.setTotalScore(score);
             playerRepository.save(player);
@@ -47,7 +52,7 @@ public class ScoreService {
 
     }
 
-    public List<LeaderboardEntry> getLeaderboard(String filter) {
+    public List<LeaderboardEntry> getLeaderboard(String filter,  int limit) {
 
         LocalDateTime startDate;
 
@@ -61,8 +66,10 @@ public class ScoreService {
 
             );
         }
+        Pageable pageable = PageRequest.of(0, limit); //LIMIT SQL
 
-        List<LeaderboardEntry> leaderboardEntries = scoreRepository.findLeaderboard(startDate);
+
+        List<LeaderboardEntry> leaderboardEntries = scoreRepository.findLeaderboard(startDate, pageable);
 
         for (int i = 0; i < leaderboardEntries.size(); i++) {
             leaderboardEntries.get(i).setRank(i + 1);

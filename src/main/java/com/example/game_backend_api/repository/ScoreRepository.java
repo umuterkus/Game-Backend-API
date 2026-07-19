@@ -2,6 +2,7 @@ package com.example.game_backend_api.repository;
 
 import com.example.game_backend_api.dto.LeaderboardEntry;
 import com.example.game_backend_api.model.Score;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +20,6 @@ public interface ScoreRepository extends JpaRepository<Score, Long>
             "WHERE s.playedAt > :startDate " +
             "GROUP BY s.player.id, s.player.username " +
             "ORDER BY MAX(s.points) DESC")
-    List<LeaderboardEntry> findLeaderboard(@Param("startDate") LocalDateTime startDate);
+    List<LeaderboardEntry> findLeaderboard(@Param("startDate") LocalDateTime startDate, Pageable pageable );
 
 }

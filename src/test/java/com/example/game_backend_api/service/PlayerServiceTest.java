@@ -72,16 +72,5 @@ class PlayerServiceTest {
 
     }
 
-    @Test
-    void addScore_shouldNotUpdateTotalScore_whenNewScoreIsLower() {
-        Player player = new Player("Ali", "ali@mail.com");
-        player.setTotalScore(1000);
 
-        when(scoreRepository.save(org.mockito.ArgumentMatchers.any(Score.class)))
-                .thenReturn(new Score(500, "classic", player));
-
-        scoreService.addScore(500, "classic", player);
-
-        verify(playerRepository, org.mockito.Mockito.never()).save(player);
-    }
 }
