@@ -22,7 +22,7 @@ public class Player {
     private int totalScore;
 
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade = CascadeType.REMOVE)
     private List<Score> scoreList = new ArrayList<>();
 
 

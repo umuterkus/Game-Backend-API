@@ -16,11 +16,11 @@ public class PlayerService
     private final PlayerRepository playerRepository;
     private final JwtUtil jwtUtil;
 
-    public PlayerService(PlayerRepository playerRepository, JwtUtil jwtUtil) {
+    public PlayerService(PlayerRepository playerRepository, JwtUtil jwtUtil)
+    {
         this.playerRepository = playerRepository;
         this.jwtUtil = jwtUtil;
     }
-
 
     public String deviceLogin(String deviceId, String username) {
         Player player = playerRepository.findByDeviceId(deviceId)
@@ -34,26 +34,15 @@ public class PlayerService
 
         return jwtUtil.generateToken(player.getDeviceId());
     }
-    public Player getPlayerById(Long id)
-    {
-        return playerRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cannot find player with id: " + id));
-    }
-    public List<LeaderboardEntry> getLeaderboard()
-    {
-        List<Player> players = playerRepository.findAllByOrderByTotalScoreDesc();
-        List<LeaderboardEntry> leaderboard = new ArrayList<>();
-        for (Player player : players) {
-            leaderboard.add(new LeaderboardEntry(player.getUsername(), player.getTotalScore()));
-        }
-        return leaderboard;
-    }
 
-    public List<Player> getPlayers()
-    {
-        return playerRepository.findAll();
-    }
 
+//
+
+    public Player getPlayerByDeviceId(String deviceId)
+    {
+        return playerRepository.findByDeviceId(deviceId)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find player with deviceId: " + deviceId));
+    }
 
     public Player updatePlayer(String deviceId, UpdatePlayerRequest request)
     {
@@ -66,13 +55,18 @@ public class PlayerService
         return playerRepository.save(existingPlayer);
     }
 
-    public String deletePlayerByDeviceId(String deviceId)
-    {
-        Player existingPlayer = playerRepository.findByDeviceId(deviceId)
-                .orElseThrow(() -> new IllegalArgumentException("Cannot find player with deviceId: " + deviceId));
+//    public String deletePlayerByDeviceId(String deviceId)
+//    {
+//        Player existingPlayer = playerRepository.findByDeviceId(deviceId)
+//                .orElseThrow(() -> new IllegalArgumentException("Cannot find player with deviceId: " + deviceId));
+//
+//        playerRepository.delete(existingPlayer);
+//        logger.info("Player deleted: deviceId={}", deviceId);
+//        return "Player deleted!";
+//    }
 
-        playerRepository.delete(existingPlayer);
-        logger.info("Player deleted: deviceId={}", deviceId);
-        return "Player deleted!";
-    }
+//   public List<Player> getPlayers()
+//    {
+//        return playerRepository.findAll();
+//    }
 }

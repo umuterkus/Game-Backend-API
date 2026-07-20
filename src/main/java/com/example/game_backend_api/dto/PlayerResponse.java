@@ -4,13 +4,11 @@ public class PlayerResponse {
 
     private Long id;
     private String username;
-    private String email;
     private int totalScore;
 
-    public PlayerResponse(Long id, String username, String email, int totalScore) {
+    public PlayerResponse(Long id, String username, int totalScore) {
         this.id = id;
         this.username = username;
-        this.email = email;
         this.totalScore = totalScore;
     }
 
@@ -22,9 +20,6 @@ public class PlayerResponse {
         return username;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     public int getTotalScore() {
         return totalScore;

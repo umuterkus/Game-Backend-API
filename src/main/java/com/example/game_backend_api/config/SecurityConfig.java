@@ -23,7 +23,6 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()).cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/players").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/leaderboard").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
