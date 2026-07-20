@@ -13,46 +13,41 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String deviceId;
+
     @NotBlank(message = "Username cannot be empty")
     private String username;
 
-    @NotBlank(message = "Email cannot be empty")
-    private String email;
     private int totalScore;
 
 
     @OneToMany(mappedBy = "player")
     private List<Score> scoreList = new ArrayList<>();
 
-    private String password;
 
     public Player() {
     }
 
-    public Player(String username, String email) {
+    public Player(String deviceId, String username) {
+        this.deviceId = deviceId;
         this.username = username;
-        this.email = email;
         this.totalScore = 0;
     }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
+    public String getDeviceId() { return deviceId; }
+    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
+
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
 
     public int getTotalScore() { return totalScore; }
     public void setTotalScore(int totalScore) { this.totalScore = totalScore; }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public List<Score> getScoreList() { return scoreList; }
+    public void setScoreList(List<Score> scoreList) { this.scoreList = scoreList; }
 
 }
